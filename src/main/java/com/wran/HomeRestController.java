@@ -16,4 +16,12 @@ public class HomeRestController {
     public String returnPong(){
         return "Pong";
     }
+
+    @GetMapping("/user")
+    public User showUser(){
+        User user = new User();
+        user.setUsername("test");
+        user.setPassword("testpass");
+        return user;
+    }
 }
