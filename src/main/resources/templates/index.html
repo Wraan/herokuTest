@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en"
+      xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <title>Say something</title>
+
+    <!-- Bootstrap core CSS -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+
+    <!-- Custom styles for this templates -->
+    <link href="css/index.css" rel="stylesheet">
+
+</head>
+
+<body>
+
+<nav class="navbar fixed-top navbar-expand-lg navbar-expand-md navbar-dark bg-dark">
+    <div class="container">
+        <h2 class="text-light">Heroku Test App</h2>
+    </div>
+</nav>
+<div class="container">
+    <div class="row">
+        <h1 class="mt-4 col-12 text-center">Say something!</h1>
+        <h5 class="col-12 text-center">(Nobody will know that was you...)</h5>
+        <div class="col-12">
+            <form th:action="@{/saySomething}" class="input-group justify-content-center my-3" method="post" th:object="${sentence}">
+                <input class="col-3 form-control" th:type="text" placeholder="How should we call you?" th:field="*{name}"/>
+                <input class="col-8 form-control" th:type="text" placeholder="What you want to say?" th:field="*{text}"/>
+                <input class="col-1 btn btn-success" type="submit" value="Submit"/>
+            </form>
+        </div>
+        <div class=" mt-4 col-12">
+            <table class="table table-striped">
+                <tbody id="tablebody">
+                </tbody>
+            </table>
+        </div>
+
+    </div>
+</div>
+
+
+
+<!-- Bootstrap core JavaScript
+================================================== -->
+<!-- Placed at the end of the document so the pages load faster -->
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+<script>window.jQuery || document.write('<script src="js/jquery.min.js"><\/script>')</script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
+<script type="text/javascript">
+    $("document").ready(function () {
+        var json = $.getJSON("/api/getSentences", function (data) {
+            $.each(data, function (index, sentence) {
+                $("#tablebody").append("<tr>\n" +
+                    "<td style=\"width: 25%\">"+ sentence.name +"</td>\n" +
+                    "<td style=\"width: 75%\">"+ sentence.text +"</td>\n" +
+                    "</tr>")
+            })
+        });
+    })
+</script>
+</body>
+</html>
